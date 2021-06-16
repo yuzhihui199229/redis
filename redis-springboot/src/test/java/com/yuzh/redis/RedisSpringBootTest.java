@@ -5,15 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yuzh.redis.pojo.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 
 @SpringBootTest
 public class RedisSpringBootTest {
 
     @Autowired
+    @Qualifier("redisTemplate")
     private RedisTemplate redisTemplate;
 
     @Test
@@ -46,10 +47,10 @@ public class RedisSpringBootTest {
         User user = new User("yuzh", 3);
         String s = null;
         try {
-            s = new ObjectMapper().writeValueAsString(user);
+//            s = new ObjectMapper().writeValueAsString(user);
             redisTemplate.opsForValue().set("user",user);
             System.out.println(redisTemplate.opsForValue().get("user"));
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
